@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System users (Buyers, Sellers, Admins)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["buyer", "seller", "admin"] },
+        "bio": { "type": "string" },
+        "socials": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Digital products for sale",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "fileURL": { "type": "string" },
+        "thumbnailURL": { "type": "string" },
+        "category": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sellerId", "title", "price"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Freelance services (gigs)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "deliveryDays": { "type": "number" },
+        "thumbnailURL": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sellerId", "title", "price"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Transactions in the platform",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "buyerId": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "itemId": { "type": "string" },
+        "itemType": { "type": "string", "enum": ["product", "service"] },
+        "amount": { "type": "number" },
+        "platformFee": { "type": "number" },
+        "sellerNet": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "paid", "delivered", "completed", "cancelled"] },
+        "paymentId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["buyerId", "sellerId", "amount", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Profiles and roles"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Marketplace digital products"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Freelance gigs"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Sales and transactions"
+    }
+  }
+}
